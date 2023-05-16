@@ -1,0 +1,45 @@
+﻿<Window x:Class="ООО__Товары_для_животных_.Views.Windows.ТоварыДляЖивотных"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ООО__Товары_для_животных_.Views.Windows"
+        mc:Ignorable="d"
+        Title="Товары Для Животных" MinHeight="350" MinWidth="600"
+        WindowStartupLocation="CenterScreen"
+        Icon="../../Images/icon.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="0.3*"/>
+            </Grid.ColumnDefinitions>
+
+            <Image Source="../../Images/logo.png"
+                   Width="75" />
+
+            <Label Content="ООО «Товары для животных»&#x0a;магазин по продаже товаров для животных в Нефтеюганске"
+                   Grid.Column="1"/>
+
+            <StackPanel Grid.Column="2"
+                        Visibility="{Binding LoggedInVisibility}">
+                <Label Content="Пользователь:" />                
+                <Label Content="{Binding UserName}"/>
+                <Label Content="{Binding UserRole}"/>
+                
+                <Button Content="Выйти из аккаунта"
+                        Command="{Binding LogoutCommand}"/>
+            </StackPanel>
+
+        </Grid>
+
+        <Frame Grid.Row="1" NavigationUIVisibility="Hidden"
+               Content="{Binding CurrentPage}" />
+    </Grid>
+</Window>

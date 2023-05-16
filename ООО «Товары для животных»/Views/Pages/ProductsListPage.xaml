@@ -1,0 +1,116 @@
+﻿<Page x:Class="ООО__Товары_для_животных_.Views.Pages.ProductsListPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ООО__Товары_для_животных_.Views.Pages"
+      xmlns:model="clr-namespace:ООО__Товары_для_животных_.Models"
+      xmlns:tool="clr-namespace:ООО__Товары_для_животных_.Tools"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProductsListPage">
+
+    <Page.Resources>
+        <tool:ProductBackgroundConverter x:Key="ProductBGConverter" />
+
+        <DataTemplate DataType="{x:Type model:Product}">
+            <Grid Background="{Binding Path=ProductQuantityInStock,
+                                       Converter={StaticResource ProductBGConverter}}">
+                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Image Source="{Binding Image}" MaxWidth="100"/>
+
+                <StackPanel Grid.Column="1">
+                    <Label Content="{Binding ProductArticleNumber}"/>
+                    <Label Content="{Binding ProductTitle}"/>
+                    <Label Content="{Binding ProductDescription}"/>
+                    <TextBlock FontFamily="Comic Sans MS"  Padding="3" Margin="3" Text="{Binding Path=ProductManufacturer.Title, StringFormat=Производитель: {0}}"/>
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text="{Binding Path=ProductProvider.Title, StringFormat=Поставщик: {0}}"/>
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text="{Binding Path=ProductCategory.Title, StringFormat=Категория: {0}}"/>
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text="{Binding Path=ProductCost, StringFormat=Цена: {0}}"/>
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text="{Binding Path=ProductDiscountAmount, StringFormat=Действующая скидка: {0}}"/>
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text="{Binding Path=ProductMaxDiscount, StringFormat=Максимальная скидка: {0}}"/>
+                </StackPanel>
+                
+                <StackPanel Grid.Column="2" Orientation="Horizontal"
+                            VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text="{Binding Path=ProductQuantityInStock, StringFormat=Кол-во на складе: {0}}"/>
+                    <TextBlock FontFamily="Comic Sans MS" Padding="3" Margin="3" Text=" шт."/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height=".2*"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".35*"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <Viewbox Grid.Column="1"
+                     Visibility="{Binding AdminPanelVisibility}">
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Добавить"
+                            Command="{Binding AddProductCommand}"/>
+                    
+                    <Button Content="Редактировать"
+                            Command="{Binding EditProductCommand}"/>
+                    
+                    <Button Content="Удалить"
+                            Command="{Binding RemoveProductCommand}"/>
+                </StackPanel>
+            </Viewbox>
+
+            <Label Content="{Binding RowsCount}" 
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"
+                   FontSize="24"/>
+        </Grid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width=".35*"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            
+
+            <Viewbox>                
+                <StackPanel>
+                    <Label Content="Сортировка" HorizontalAlignment="Center"
+                           FontSize="24" Margin="0 0 0 35"/>
+
+                    <Label Content="По Производителю"
+                           HorizontalAlignment="Center" FontSize="20" />
+                    <ComboBox ItemsSource="{Binding Manufacturers}"
+                              DisplayMemberPath="Title"
+                              SelectedItem="{Binding SelectedManufacturer}" />
+
+                    <Label Content="По Цене"
+                           HorizontalAlignment="Center" FontSize="20" />                
+                    <ComboBox ItemsSource="{Binding CostSortTypes}"
+                              SelectedItem="{Binding SelectedCostSortType}" />
+
+                    <Label Content="Поисковая строка" Margin="0 20 0 0"
+                           HorizontalAlignment="Center" FontSize="20" />
+                    <TextBox Text="{Binding SearchText,
+                                            UpdateSourceTrigger=PropertyChanged}"
+                             TextWrapping="Wrap"/>
+                </StackPanel>
+            </Viewbox>
+
+            <ListBox Grid.Column="1" ItemsSource="{Binding Products}"
+                     SelectedItem="{Binding SelectedProduct}"/>
+        </Grid>
+    </Grid>
+</Page>
